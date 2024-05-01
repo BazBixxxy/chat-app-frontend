@@ -2,17 +2,17 @@ import React from "react";
 import useConversation from "../zustand/useConversation";
 import { BiConversation } from "react-icons/bi";
 import useGetConversations from "../hooks/useGetConversations";
+import { useSocketContext } from "../context/SocketContext";
 
-const Conversation = ({ conversation, lastIndex, index, emoji }) => {
+const Conversation = ({ conversation, lastIndex, emoji }) => {
   const { selectedConversation, setSelectedConversation } = useConversation();
-  const { conversations } = useGetConversations();
 
   const isSelected = selectedConversation?._id === conversation._id;
+  const { onlineUsers } = useSocketContext();
+  const isOnline = onlineUsers?.includes(conversation._id);
 
-  const top = () => {
-    console.log(selectedConversation);
-    setSelectedConversation(conversation);
-  };
+
+  // console.log(onlineUsers);
   return (
     <>
       <div
@@ -20,9 +20,9 @@ const Conversation = ({ conversation, lastIndex, index, emoji }) => {
         ${isSelected ? `bg-sky-800` : ``}
         `}
         // onClick={() => setSelectedConversation(conversation)}
-        onClick={top}
+        onClick={()=>setSelectedConversation(conversation)}
       >
-        <div className="avatar online animate-pulse">
+        <div className={`avatar ${isOnline ? "online animate-pulse" : ""} `}>
           <div className="w-12 rounded-full">
             <img src={conversation.profilePic} />
           </div>
