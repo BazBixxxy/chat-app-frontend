@@ -11,7 +11,7 @@ const useSendMessage = () => {
     setLoading(true);
     try {
       const res = await fetch(
-        `/api/messages/send/${selectedConversation._id}`,
+        `https://chat-app-backend-ejmk.onrender.com/api/messages/send/${selectedConversation._id}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
